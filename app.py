@@ -5,8 +5,6 @@ from utils import render_report
 import os
 
 
-load_dotenv()
-
 st.set_page_config(page_title="AI 产品竞品分析器", page_icon="🤖")
 st.title("🤖 AI 产品每日竞品分析")
 st.markdown("每天自动从 Product Hunt 抽一款 AI 产品并生成分析报告")

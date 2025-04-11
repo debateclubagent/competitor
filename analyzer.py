@@ -1,7 +1,7 @@
 from transformers import pipeline
-import os
+import streamlit as st
 
-hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+hf_token = st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 
 summarizer = pipeline(
     "summarization",

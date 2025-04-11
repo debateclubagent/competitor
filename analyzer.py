@@ -11,11 +11,11 @@ model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16
 
 def analyze_product(product):
     desc = product['description']
-    prompt = f"你是一个AI产品分析专家。以下是一个AI产品的描述，请你总结它的功能模块。
+    prompt = f"""你是一个AI产品分析专家。以下是一个AI产品的描述，请你总结它的功能模块。
 
 产品描述：{desc}
 
-功能模块总结："
+功能模块总结："""
 
     try:
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)

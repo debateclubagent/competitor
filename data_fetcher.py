@@ -4,7 +4,7 @@ mock_products = [
     {
         "name": "AI Notetaker",
         "tagline": "自动生成会议纪要的助手",
-        "url": "https://www.producthunt.com/products/ai-notetaker",
+        "url": "https://www.producthunt.com/products/figma",
         "description": "AI Notetaker 能帮你实时转录会议内容，自动整理要点，生成行动项。支持Zoom、Meet、Teams等平台。",
     },
     {

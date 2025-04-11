@@ -1,17 +1,34 @@
-from transformers import pipeline
+# analyzer.py
 import streamlit as st
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
 
 hf_token = st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 
-summarizer = pipeline(
-    "summarization",
-    model="sshleifer/distilbart-cnn-12-6",
-    use_auth_token=hf_token
-)
+model_id = "HuggingFaceH4/zephyr-7b-beta"
+tokenizer = AutoTokenizer.from_pretrained(model_id, use_auth_token=hf_token)
+model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16, device_map="auto", use_auth_token=hf_token)
 
 def analyze_product(product):
     desc = product['description']
-    summary = summarizer(desc, max_length=100, min_length=20, do_sample=False)[0]['summary_text']
+    prompt = f"你是一个AI产品分析专家。以下是一个AI产品的描述，请你总结它的功能模块。
+
+产品描述：{desc}
+
+功能模块总结："
+
+    try:
+        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=150,
+            do_sample=True,
+            temperature=0.7,
+            top_p=0.9
+        )
+        summary = tokenizer.decode(outputs[0], skip_special_tokens=True).split("功能模块总结：")[-1].strip()
+    except Exception as e:
+        summary = f"❌ Zephyr模型分析失败：{str(e)}"
 
     return {
         "定位": f"{product['tagline']}",

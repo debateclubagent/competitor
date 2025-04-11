@@ -3,7 +3,7 @@ from data_fetcher import fetch_random_ai_product
 from analyzer import analyze_product
 from utils import render_report
 import os
-from dotenv import load_dotenv
+
 
 load_dotenv()
 
